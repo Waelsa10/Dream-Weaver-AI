@@ -1,12 +1,9 @@
-import path from 'path';
-import { defineConfig, loadEnv } from 'vite';
-import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite';
 
 export default defineConfig({
   server: {
-    port: 5173,
-    https: false,
     allowedHosts: ['dream-weaver-ai.onrender.com'],
+    host: '0.0.0.0',
+    port: process.env.PORT ? parseInt(process.env.PORT) : 5173,
   },
-})
-
+});
