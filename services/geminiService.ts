@@ -1,5 +1,5 @@
 import { GoogleGenAI } from "@google/genai";
-import { type ChatMessage } from "../types";
+import { type ChatMessage, type DreamAnalysisResult } from "../types";
 
 const API_KEY = process.env.API_KEY;
 if (!API_KEY) {
@@ -8,7 +8,7 @@ if (!API_KEY) {
 
 const ai = new GoogleGenAI({ apiKey: API_KEY });
 
-export async function generateDreamAnalysis(transcript: string): Promise<{ imageUrl: string; interpretation: string; }> {
+export async function generateDreamAnalysis(transcript: string): Promise<DreamAnalysisResult> {
   try {
     const interpretationPromise = ai.models.generateContent({
       model: 'gemini-2.5-flash',
