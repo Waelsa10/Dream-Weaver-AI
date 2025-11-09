@@ -3,21 +3,25 @@ import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 
 export default defineConfig(({ mode }) => {
-    const env = loadEnv(mode, '.', '');
-    return {
-      server: {
-        port: 3000,
-        host: '0.0.0.0',
+  const env = loadEnv(mode, '.', '');
+
+  return {
+    server: {
+      port: process.env.PORT ? parseInt(process.env.PORT) : 3000,
+      host: '0.0.0.0',
+      allowedHosts: ['dream-weaver-ai.onrender.com'], // ✅ Allow your Render domain
+    },
+    plugins: [react()],
+    define: {
+      // ✅ Wrap environment variable names in quotes to avoid reference errors
+      'process.env.API_KEY': JSON.stringify(env['AIzaSyDkx2S0UqIR2ks0fuGrDDhUIWY_alYH7Rg'] || ''),
+      'process.env.GEMINI_API_KEY': JSON.stringify(env['AIzaSyDkx2S0UqIR2ks0fuGrDDhUIWY_alYH7Rg'] || ''),
+    },
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, '.'),
       },
-      plugins: [react()],
-      define: {
-        'process.env.API_KEY': JSON.stringify(env.AIzaSyDkx2S0UqIR2ks0fuGrDDhUIWY_alYH7Rg),
-        'process.env.GEMINI_API_KEY': JSON.stringify(env.AIzaSyDkx2S0UqIR2ks0fuGrDDhUIWY_alYH7Rg)
-      },
-      resolve: {
-        alias: {
-          '@': path.resolve(__dirname, '.'),
-        }
-      }
-    };
+    },
+  };
 });
+
